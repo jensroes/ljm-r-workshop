@@ -1,0 +1,109 @@
+---
+title: 'Reproducible research using markdown documentation'
+author: "Jens Roeser"
+output: 
+  ioslides_presentation:
+    incremental: false
+    transition: slower
+    widescreen: true
+    css: slides.css
+bibliography      : ["../refs/references.bib"]
+---
+
+<style>
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+
+slides > slide.backdrop {
+  background: white;
+}
+
+div.footnotes {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 15px;
+  width: 80%;
+  font-size: 0.6em;
+}
+
+pre {
+  font-size: 15px;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, eval = TRUE, message = FALSE, comment=NA)
+options("kableExtra.html.bsTable" = T, digits = 2)
+options(pillar.print_min = 5, pillar.print_max = 6)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+## R markdown
+
+- combination of text, (R)code, and data
+- documentation of all analysis steps (for us and our readers)
+- quickly updating and repeating analysis
+- communication of analysis / results 
+- producing texts, website, supplementary materials, walkthroughs, APA style manuscripts, slides
+- easy cross referencing of tables and figures, citations 
+- automatically compiling reference lists
+- compiles into `.pdf`, `.html`, `.docx`, `.doc`
+- some knowledge of LaTeX useful for cross-referencing, using additional features (LaTeX add-ons), writing equations 
+
+## Setup
+
+```{r eval = FALSE}
+install.packages("rmdformats")
+```
+
+or 
+
+```{r eval = FALSE}
+install.packages("remotes")
+remotes::install_github("juba/rmdformats")
+```
+
+## From the R-Studio menu ...
+
+- `File` > `New File` > `R Markdown`
+- Document (PDF, WORD, HTML)
+- from template: 
+  - e.g. `readthedown` or `robobook` for documents
+  - `rmdshower::shower_presentations` for slides
+
+## Documents
+
+- example: <https://rpubs.com/jensroes/765467>
+- online sharing on RPubs ("Publish")
+- create from template:
+  - `File` > `New File` > `R Markdown`
+  - `robobook`
+- we'll develop a `robobook` markdown together with all fundamental features
+
+## APA manuscripts using `papaja`
+
+- example: <https://osf.io/vayhq/> published in @roeser2021modelling
+- installation: <https://github.com/crsh/papaja>
+  - `File` > `New File` > `R Markdown`
+  - "APA article (6th edition)" using `papaja`
+- template for APA article (7th edition)
+
+## Task
+
+- Reproduce analysis in `apa7_template.Rmd`
+- Redo analysis for either dominant or non-dominant hand or foot: change as little code as possible
+
+
+## References
+
+```{r eval = F, echo = F}
+<style>
+slides > slide { overflow: scroll; }
+slides > slide:not(.nobackground):after {
+  content: '';
+}
+</style>
+```
+
+
