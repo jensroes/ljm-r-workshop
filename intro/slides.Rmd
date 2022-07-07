@@ -7,29 +7,44 @@ output:
     transition: slower
     widescreen: true
     css: ../slides.css
+    logo: ../gfx/ntu.png
 bibliography      : ["../references.bib"]
 ---
 
+```{=html}
 <style>
-.forceBreak { -webkit-column-break-after: always; break-after: column; }
 
 slides > slide.backdrop {
   background: white;
 }
 
-div.footnotes {
+.gdbar img {
+  width: 240px !important;
+  height: 54px !important;
+  margin: 8px 8px;
   position: absolute;
-  bottom: 0;
-  margin-bottom: 15px;
-  width: 80%;
-  font-size: 0.6em;
+}
+
+.gdbar {
+  width: 350px !important;
+  height: 70px !important;
+}
+
+slides > slide:not(.nobackground):before {
+  width: 128px;
+  height: 33px;
+  background-size: 100px 30px;
+}
+
+.smalltable .table{
+  font-size: 18px;
 }
 
 pre {
   font-size: 15px;
 }
-
 </style>
+```
 
 
 
@@ -102,17 +117,21 @@ Why using R (or code in general) to handle data?
 - If possible, use `tidyverse` instead of base R.
 
 
-## Recommended reading {.columns-2}
+## Recommended reading 
+
+<div style="float: left; width: 40%;">
 
 - *R for Data Science* by Wickham and Grolemund
 - This link [r4ds.had.co.nz/](https://r4ds.had.co.nz/)
 
-<p class="forceBreak"></p>
+</div>
+<div style="float: left; width: 55%;">
 
-```{r fig.align='right', out.width="65%", echo = F}
+```{r fig.align='right', out.width="55%", echo = F}
 knitr::include_graphics("../gfx/wickham.jpg")
 ```
 
+</div>
 
 ## Download repository
 
@@ -132,8 +151,9 @@ knitr::include_graphics("../gfx/plos.png")
 
 - Age-related changes in cognitive performance through adolescence and adulthood in a real-world task.
 
-## Real-world task: StarCraft 2 {.columns-2}
+## Real-world task: StarCraft 2
 
+<div style="float: left; width: 45%;">
 
 ```{r fig.align='left', out.width="80%", echo = F}
 knitr::include_graphics("../gfx/sc2b.jpeg")
@@ -142,7 +162,9 @@ knitr::include_graphics("../gfx/sc2b.jpeg")
 - Real-time strategy video game
 - Nintendo Wii Balance Board
 
-<p class="forceBreak"></p>
+</div>
+
+<div style="float: right; width: 45%;">
 
 ```{r fig.align='right', out.width="80%", echo = F}
 knitr::include_graphics("../gfx/sc2.jpeg")
@@ -152,6 +174,7 @@ knitr::include_graphics("../gfx/sc2.jpeg")
 knitr::include_graphics("../gfx/sc2c.jpeg")
 ```
 
+</div>
 
 
 

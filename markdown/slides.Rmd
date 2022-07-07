@@ -6,8 +6,8 @@ output:
     incremental: false
     transition: slower
     widescreen: true
-    css: slides.css
-bibliography      : ["../refs/references.bib"]
+    css: ../slides.css
+bibliography      : ["../references.bib"]
 ---
 
 <style>

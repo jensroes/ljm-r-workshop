@@ -13,26 +13,23 @@ glimpse(blomkvist)
 # In this script we will look at changing the appearance of a plot.
 # We will use the long data format as before.
 
-# Some data transformation.
+# Some data transformation: Don't worry about the details here.
+# We will get back to data transformation later.
 blomkvist_long <- pivot_longer(blomkvist,
                                cols = starts_with("rt_"),
                                names_to = c(".value", "response_by", "dominant"),
                                names_sep = "_") %>%
-  mutate(dominant = recode(dominant,
-                           d = "dominant",
-                           nd = "non-dominant"),
-         smoker = recode(smoker,
-                         former = "Ex-smoker",
-                         yes = "Smoker",
-                         no = "Non-smoker")) %>%
   filter(!is.na(smoker))
 
-# This time we will use a boxplot.
+# But do check out how the data look like now:
+glimpse(blomkvist_long)
+
+# This time we will use a boxplot: add geom_boxplot() + at the right place.
 ggplot(blomkvist_long, aes(y = rt,
                            x = response_by,
                            colour = dominant)) +
   geom_jitter() +
-  geom_boxplot() +
+  ---
   facet_wrap(~smoker) +
   scale_y_log10()
 

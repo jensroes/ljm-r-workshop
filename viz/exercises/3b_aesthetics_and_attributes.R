@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # Load the blomkvist data and store them in the variable `blomkvist`
-blomkvist <- read_csv("data/blomkvist.csv") 
+blomkvist <- read_csv("data/blomkvist.csv")
 
 # For this exercise we use the differences between rt of the dominant and non-dominant hand.
 # For following line computes a new variable.
@@ -22,7 +22,7 @@ diff_plot + geom_point(position = "---")
 # Or by using the wrapper function `geom_jitter()`
 diff_plot + ---
 
-# Set alpha to .5 and size to 1 to improve the visability of the jittered dots.
-diff_plot + geom_---(alpha = ---, size = ---) 
+# Set alpha to .5 and size to 1 to improve the visibility of the jittered dots.
+diff_plot + geom_---(alpha = ---, size = ---)
 
 # For using positioning in histograms continue with Exercise 3c.

@@ -1,36 +1,50 @@
 ---
-title: 'Data wrangling in the `tidyverse`'
-author: "Jens Roeser"
+title: 'Data wrangling in the `tidyverse`' 
+author: Jens Roeser
 output: 
   ioslides_presentation:
     incremental: false
     transition: slower
     widescreen: true
     css: ../slides.css
+    logo: ../gfx/ntu.png
 bibliography      : ["../references.bib"]
 ---
 
+```{=html}
 <style>
-.forceBreak { -webkit-column-break-after: always; break-after: column; }
 
 slides > slide.backdrop {
   background: white;
 }
 
-div.footnotes {
+.gdbar img {
+  width: 240px !important;
+  height: 54px !important;
+  margin: 8px 8px;
   position: absolute;
-  bottom: 0;
-  margin-bottom: 15px;
-  width: 80%;
-  font-size: 0.6em;
+}
+
+.gdbar {
+  width: 350px !important;
+  height: 70px !important;
+}
+
+slides > slide:not(.nobackground):before {
+  width: 128px;
+  height: 33px;
+  background-size: 100px 30px;
+}
+
+.smalltable .table{
+  font-size: 18px;
 }
 
 pre {
   font-size: 15px;
 }
-
 </style>
-
+```
 
 
 ```{r setup, include=FALSE}
@@ -56,24 +70,17 @@ library(kableExtra)
 - (also creating counterbalanced, randomised stimulus lists)
 
 
-## `tidyverse` {.columns-2}
+---
 
 Collection of R packages for data science that share:
+
+<div style="float: left; width: 40%;">
 
 - common data philosophies
 - grammar
 - data structures
 - best practice
 - designed to work together
-
-
-<p class="forceBreak"></p>
-
-```{r fig.align='right', out.width="75%", echo = F}
-knitr::include_graphics("../gfx/tidyverse-logo.png")
-```
-
-## `tidyverse` {.columns-2}
 
 ```{r eval = F}
 # Installs 19 packages
@@ -85,17 +92,18 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
+</div>
 
+<div style="float: right; width: 60%;">
 
-<p class="forceBreak"></p>
-```{r fig.align='right', out.width="75%", echo = F}
+```{r fig.align='right', out.width="50%", echo = F}
 knitr::include_graphics("../gfx/tidyverse-logo.png")
 ```
+</div>
 
 
 
-## `tidyverse`
-
+---
 
 ```{r fig.align='center', out.width="80%", echo = F}
 knitr::include_graphics("../gfx/tidyverse-package-workflow.png")
@@ -126,9 +134,9 @@ knitr::include_graphics("../gfx/tidy_1.png")
 
 - Functions that do specific things to our data.
 
-- Must know: `read_csv`, `write_csv`, `glimpse`, `select`, `filter`, `mutate`, `group_by` / `ungroup`, `summarise`, `pivot_wider` / `_longer`, `_join`, `bind_rows` / `_cols`
+- Must know: `read_csv`, `write_csv`, `glimpse`, `select`, `filter`, `mutate`, `group_by` / `ungroup`, `summarise`, `pivot_wider` / `_longer`
 
-- Also important: `count`, `pull`, `slice`, `across`, `recode`, `unique`, `n`, `where`, `everything`, `~` and `.`, `map`, `starts_with`, `ends_with`, `contains`, `separate`, `unite`, `transmute`
+- Also important: `count`, `pull`, `slice`, `across`, `recode`, `unique`, `n`, `where`, `everything`, `~` and `.`, `map`, `starts_with`, `ends_with`, `contains`, `separate`, `unite`, `transmute`, `_join`, `bind_rows` / `_cols`
 
 - There are more but these are the most important ones.
 
@@ -146,9 +154,13 @@ knitr::include_graphics("../gfx/tidy_1.png")
 ```{r eval = F}
 # Imports data as data frame
 data_as_frame <- read.csv("path_to_data/data.csv")
+```
+
+```{r eval = F}
 # Imports data as tibble
 data_as_tibble <- read_csv("path_to_data/data.csv")
 ```
+
 
 - `.csv`: comma separated file
 - `readr` package: e.g. `read_csv`, `read_delim`, `read_tsv`
@@ -166,9 +178,13 @@ For other data formats:
 ```{r eval = F}
 # Summarise data structure in base R
 str(data_as_frame)
+```
+
+```{r eval = F}
 # Summarise data structure in tidyverse
 glimpse(data_as_tibble)
 ```
+
 
 Open exercise script 1
 
@@ -810,7 +826,7 @@ filter(blomkvist_rt, smoker %in% c("yes", "former"))
 ```
 </div>
 
-<div style="float: right; width: 50%;">
+<div style="float: right; width: 48%;">
 
 
 ```{r }
@@ -1030,7 +1046,7 @@ mutate(blomkvist_grouped, # grouped data
 
 ## Never forget to *ungroup* your data
 
-otherwise you will keep performing by-group operations, even if you didn't intend to.
+otherwise you will keep performing by-group operations.
 
 <div style="float: left; width: 40%;">
 
@@ -1055,61 +1071,6 @@ ungroup(blomkvist_grouped) # :)
 ## Grouping data
 
 - Continue with exercise 5
-
-
-
-## Mutate data with `c_across()` {.smaller}
-
-```{r echo = F}
-blomkvist_2 <- blomkvist
-blomkvist <- select(blomkvist_2, id, sex, age, starts_with("rt_"))
-```
-
-Apply a function across different columns.
-
-Example: get the mean for of all rts for each participant (row).
-
-```{r}
-# Long way
-mutate(blomkvist, mean_rt = (rt_hand_d + rt_hand_nd + rt_foot_d + rt_foot_nd)/4)
-```
-
-
-## Mutate data with `c_across()` {.smaller}
-
-```{r eval=F}
-# Long way
-mutate(blomkvist, mean_rt = (rt_hand_d + rt_hand_nd + rt_foot_d + rt_foot_nd)/4)
-```
-
-```{r}
-# Still a lot of typing :(
-blomkvist_rowwise <- rowwise(blomkvist) # each row / ppt is a group
-mutate(blomkvist_rowwise, mean_rt = mean(c_across(c(rt_hand_d, rt_hand_nd, rt_foot_d, rt_foot_nd))))
-```
-
-
-## Mutate data with `c_across()` {.smaller}
-
-```{r eval=F}
-# Long way
-mutate(blomkvist, mean_rt = (rt_hand_d + rt_hand_nd + rt_foot_d + rt_foot_nd)/4)
-```
-
-```{r}
-# That's better :)
-blomkvist_rowwise <- rowwise(blomkvist) # each row / ppt is a group
-mutate(blomkvist_rowwise, mean_rt = mean(c_across(starts_with("rt_"))))
-```
-
-
-## Mutate data with `c_across()` {.smaller}
-
-```{r}
-# Without rowwise grouping returns the grand average:
-mutate(blomkvist, mean_rt = mean(c_across(starts_with("rt_"))))
-# which is not what we want.
-```
 
 
 
@@ -1154,7 +1115,7 @@ pivot_longer(blomkvist_wide, cols = starts_with("rt_"))
 
 ## Pivoting data to long format 
 
-<div style="float: left; width: 45%;">
+<div style="float: left; width: 50%;">
 
 
 ```{r }
@@ -1163,7 +1124,7 @@ pivot_longer(blomkvist_wide, cols = -id) # shorthand
 
 </div>
 
-<div style="float: right; width: 45%;">
+<div style="float: right; width: 40%;">
 
 ```{r}
 pivot_longer(blomkvist_wide, 
@@ -1176,7 +1137,7 @@ pivot_longer(blomkvist_wide,
 
 ## Pivoting data to long format 
 
-<div style="float: left; width: 45%;">
+<div style="float: left; width: 50%;">
 
 ```{r}
 pivot_longer(blomkvist_wide, 
@@ -1187,7 +1148,7 @@ pivot_longer(blomkvist_wide,
 
 </div>
 
-<div style="float: right; width: 45%;">
+<div style="float: right; width: 40%;">
 
 
 ```{r}
@@ -1213,7 +1174,7 @@ bk_long
 
 ## Pivoting data back to wide format
 
-<div style="float: left; width: 45%;">
+<div style="float: left; width: 40%;">
 
 
 ```{r}
@@ -1222,7 +1183,7 @@ bk_long
 
 </div>
 
-<div style="float: right; width: 45%;">
+<div style="float: right; width: 50%;">
 
 
 ```{r}
@@ -1234,14 +1195,14 @@ pivot_wider(bk_long,
 
 ## Pivoting data back to wide format 
 
-<div style="float: left; width: 45%;">
+<div style="float: left; width: 40%;">
 
 ```{r}
 bk_long
 ```
 
 </div>
-<div style="float: right; width: 45%;">
+<div style="float: right; width: 50%;">
 
 
 ```{r}
@@ -1254,7 +1215,7 @@ pivot_wider(bk_long,
 ## Pivoting data back to wide format 
 
 
-<div style="float: left; width: 45%;">
+<div style="float: left; width: 40%;">
 
 ```{r}
 bk_long
@@ -1262,7 +1223,7 @@ bk_long
 
 </div>
 
-<div style="float: right; width: 45%;">
+<div style="float: right; width: 50%;">
 
 
 ```{r}
@@ -1276,12 +1237,101 @@ pivot_wider(bk_long,
 
 ## Pivoting data
 
-Continue with exercise 7
+Continue with exercise 6
 
-```{r echo = F}
-blomkvist <- blomkvist_2
-blomkvist <- select(blomkvist, -starts_with("pal_"))
+
+# Advanced data wrangling (homework)
+
+
+## The pipe: `%>%` 
+
+<div style="float: left; width: 45%;">
+
+- `%>%` moves or "pipes" the result forward into the next function  
+- `f(x)` is the same as `x %>% f()`  
+- Short-cut: `Ctrl` + `Shift` + `M`
+
+```{r eval = F}
+select(data, myvar1, myvar2)
+# or
+data %>% select(myvar1, myvar2)
 ```
+
+*assumes first argument is data
+
+</div>
+<div style="float: right; width: 45%;">
+
+<p class="forceBreak"></p>
+
+```{r fig.align='right', out.width="80%", echo = F}
+knitr::include_graphics("../gfx/pipe.png")
+```
+
+</div>
+
+## The pipe: `%>%` 
+
+<div style="float: left; width: 45%;">
+
+
+```{r eval = F}
+# Instead of 
+data_1 <- first_step(data)
+data_2 <- second_step(data_2)
+data_3 <- third_step(data_3)
+data_4 <- fourth_step(data_4)
+
+# or
+fourth_step(
+    third_step(
+        second_step(
+            first_step(data)
+            )
+          )
+        )
+```
+
+</div>
+<div style="float: right; width: 45%;">
+
+```{r eval = F}
+# Just do
+data %>% 
+  first_step() %>%
+  second_step() %>%
+  third_step() %>%
+  fourth_step()
+```
+
+</div>
+
+## The pipe: `%>%` 
+
+<div style="float: left; width: 45%;">
+
+
+```{r}
+bk <- read_csv("../data/blomkvist.csv")
+bk_rts <- select(bk, id, starts_with("rt_"))
+bk_rts_flt <- filter(bk_rts, rt_hand_d > 1500)
+bk_rts_flt
+```
+
+</div>
+<div style="float: right; width: 45%;">
+
+
+```{r}
+read_csv("../data/blomkvist.csv") %>% 
+  select(id, starts_with("rt_")) %>% 
+  filter(rt_hand_d > 1500)
+```
+</div>
+
+## The pipe: `%>%`
+
+Continue with exercise 7
 
 
 
@@ -1477,100 +1527,9 @@ Continue with exercise 8
 </div>
 
 
-
-
-# Advanced data wrangling (homework)
-
-
-## The pipe: `%>%` 
-
-<div style="float: left; width: 45%;">
-
-- `%>%` moves or "pipes" the result forward into the next function  
-- `f(x)` is the same as `x %>% f()`  
-- Short-cut: `Ctrl` + `Shift` + `M`
-
-```{r eval = F}
-select(data, myvar1, myvar2)
-# or
-data %>% select(myvar1, myvar2)
-```
-
-*assumes first argument is data
-
-</div>
-<div style="float: right; width: 45%;">
-
-<p class="forceBreak"></p>
-
-```{r fig.align='right', out.width="80%", echo = F}
-knitr::include_graphics("../gfx/pipe.png")
-```
-
-</div>
-
-## The pipe: `%>%` 
-
-<div style="float: left; width: 45%;">
-
-
-```{r eval = F}
-# Instead of 
-data_1 <- first_step(data)
-data_2 <- second_step(data_2)
-data_3 <- third_step(data_3)
-data_4 <- fourth_step(data_4)
-
-# or
-fourth_step(
-    third_step(
-        second_step(
-            first_step(data)
-            )
-          )
-        )
-```
-
-</div>
-<div style="float: right; width: 45%;">
-
-```{r eval = F}
-# Just do
-data %>% 
-  first_step() %>%
-  second_step() %>%
-  third_step() %>%
-  fourth_step()
-```
-
-</div>
-
-## The pipe: `%>%` 
-
-<div style="float: left; width: 45%;">
-
-
 ```{r}
-bk <- read_csv("../data/blomkvist.csv")
-bk_rts <- select(bk, id, starts_with("rt_"))
-bk_rts_flt <- filter(bk_rts, rt_hand_d > 1500)
-bk_rts_flt
+blomkvist <- blomkvist %>% drop_na()
 ```
-
-</div>
-<div style="float: right; width: 45%;">
-
-
-```{r}
-read_csv("../data/blomkvist.csv") %>% 
-  select(id, starts_with("rt_")) %>% 
-  filter(rt_hand_d > 1500)
-```
-</div>
-
-## The pipe: `%>%`
-
-Continue with exercise 9
 
 
 
@@ -1603,7 +1562,7 @@ First argument of `across` will be used as first argument of function (`log`) wh
 
 ```{r echo = F}
 blomkvist_2 <- blomkvist 
-blomkvist <- select(blomkvist, -starts_with("pal_"), -sex, -medicine) %>%
+blomkvist <- select(blomkvist, -medicine) %>%
   drop_na()
 ```
 
@@ -1729,6 +1688,13 @@ summarise(blomkvist, rt_hand_d_mean = mean(rt_hand_d),
 ## Summarise variables with `across()`
 
 ```{r}
+summarise(blomkvist, rt_hand_d_mean = mean(rt_hand_d),
+                     rt_hand_nd_mean = mean(rt_hand_nd))
+
+```
+
+
+```{r}
 summarise(blomkvist, across(c(rt_hand_d, rt_hand_nd), mean))
 ```
 
@@ -1748,19 +1714,78 @@ summarise(blomkvist, across(starts_with("rt_"), mean))
 summarise(blomkvist, across(starts_with("rt_"), list(mean = mean, sd = sd)))
 ```
 
-## Using `across()` to mutate and summarise variables
-
-Open exercise 6 script.
 
 
 
-## Mutating data: `cut()`
+
+```{r echo = F}
+blomkvist <- select(blomkvist_2, id, sex, age, starts_with("rt_"))
+```
+
+## Mutate data with `c_across()` {.smaller}
+
+Apply a function across different columns.
+
+Example: get the sum for of all rts for each participant (row).
 
 ```{r}
-mutate(blomkvist_rt, age_cat = cut(age, 
-                                   breaks = 3, 
-                                   labels = c("low", "middle", "high")))
+# Long way
+mutate(blomkvist, sum_rt = rt_hand_d + rt_hand_nd + rt_foot_d + rt_foot_nd)
 ```
+
+
+## Mutate data with `c_across()` {.smaller}
+
+```{r}
+# Long way
+mutate(blomkvist, sum_rt = rt_hand_d + rt_hand_nd + rt_foot_d + rt_foot_nd)
+```
+
+## Mutate data with `c_across()` {.smaller}
+
+```{r}
+# Using sum function doesn't give the desired result
+mutate(blomkvist, sum_rt = sum(c(rt_hand_d, rt_hand_nd, rt_foot_d, rt_foot_nd), na.rm = TRUE))
+```
+
+
+
+## Mutate data with `c_across()` {.smaller}
+
+```{r eval=F}
+# Long way
+mutate(blomkvist, sum_rt = rt_hand_d + rt_hand_nd + rt_foot_d + rt_foot_nd)
+```
+
+```{r}
+# Still a lot of typing :(
+blomkvist_rowwise <- rowwise(blomkvist) # each row / ppt is a group
+mutate(blomkvist_rowwise, sum_rt = sum(c_across(c(rt_hand_d, rt_hand_nd, rt_foot_d, rt_foot_nd))))
+```
+
+
+## Mutate data with `c_across()` {.smaller}
+
+```{r eval=F}
+# Long way
+mutate(blomkvist, sum_rt = rt_hand_d + rt_hand_nd + rt_foot_d + rt_foot_nd)
+```
+
+```{r}
+# That's better :)
+blomkvist_rowwise <- rowwise(blomkvist) # each row / ppt is a group
+mutate(blomkvist_rowwise, sum_rt = sum(c_across(starts_with("rt_"))))
+```
+
+
+## Mutate data with `c_across()` {.smaller}
+
+```{r}
+# Without rowwise grouping returns the overall sum:
+mutate(blomkvist, sum_rt = sum(c_across(starts_with("rt_"))))
+# which is not what we want.
+```
+
 
 ## Mutating data: `case_when()`
 
@@ -1776,8 +1801,9 @@ mutate(blomkvist_rt, age_cat = case_when(age > 70 ~ "high",
 ```
 
 
+## Using `across()` to mutate and summarise variables
 
-## References
+Open exercise 9 script.
 
 
 

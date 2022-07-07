@@ -7,9 +7,46 @@ output:
         widescreen: true
         transition: slower
         css: ../slides.css
+        logo: ../gfx/ntu.png
 bibliography      : ["../references.bib"]
 link-citations: yes
 ---
+
+```{=html}
+<style>
+
+slides > slide.backdrop {
+  background: white;
+}
+
+.gdbar img {
+  width: 240px !important;
+  height: 54px !important;
+  margin: 8px 8px;
+  position: absolute;
+}
+
+.gdbar {
+  width: 350px !important;
+  height: 70px !important;
+}
+
+slides > slide:not(.nobackground):before {
+  width: 128px;
+  height: 33px;
+  background-size: 100px 30px;
+}
+
+.smalltable .table{
+  font-size: 18px;
+}
+
+pre {
+  font-size: 15px;
+}
+</style>
+```
+
 
 
 ```{r setup, include=FALSE}
@@ -31,27 +68,6 @@ theme_set(
 ```
 
 
-<style>
-
-slides > slide.backdrop {
-  background: white;
-}
-
-.forceBreak { -webkit-column-break-after: always; break-after: column; }
-
-div.footnotes {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 15px;
-  width: 80%;
-  font-size: 0.6em;
-}
-
-pre {
-  font-size: 15px;
-}
-
-</style>
 
 
 ## Outline
@@ -555,9 +571,9 @@ ggplot(data = blomkvist, mapping = aes(x = age, y = rt_hand_d, colour = smoker))
 - geometries
 </div>
 
-<div style="float: right; width: 75%;">
+<div style="float: right; width: 60%;">
 
-```{r echo = FALSE, out.width = "70%"}
+```{r echo = FALSE, out.width = "90%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
   geom_point()
 ```
@@ -579,9 +595,9 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 - facets
 </div>
 
-<div style="float: right; width: 75%;">
+<div style="float: right; width: 60%;">
 
-```{r echo = FALSE, out.width="70%"}
+```{r echo = FALSE, out.width="90%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
   geom_point() +
   facet_grid(~sex)
@@ -608,9 +624,9 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 - statistics
 </div>
 
-<div style="float: right; width: 75%;">
+<div style="float: right; width: 60%;">
 
-```{r echo = FALSE, out.width="70%"}
+```{r echo = FALSE, out.width="90%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
   geom_point() +
   stat_smooth(method = "lm", se = FALSE, fullrange = TRUE) 
@@ -638,9 +654,9 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 - coordinates
 </div>
 
-<div style="float: right; width: 75%;">
+<div style="float: right; width: 60%;">
 
-```{r echo=FALSE, out.width="70%"}
+```{r echo=FALSE, out.width="90%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
   geom_point() +
   coord_trans(x = "log", y = "reverse")
@@ -668,9 +684,9 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 - coordinates
 </div>
 
-<div style="float: right; width: 75%;">
+<div style="float: right; width: 60%;">
 
-```{r echo=FALSE, out.width="70%"}
+```{r echo=FALSE, out.width="90%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
   geom_point() +
   coord_flip()
@@ -699,9 +715,9 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 - theme
 </div>
 
-<div style="float: right; width: 75%;">
+<div style="float: right; width: 60%;">
 
-```{r echo=FALSE, out.width="70%"}
+```{r echo=FALSE, out.width="90%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
   geom_point() +
   theme_dark()
@@ -730,9 +746,9 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 - theme
 </div>
 
-<div style="float: right; width: 75%;">
+<div style="float: right; width: 60%;">
 
-```{r echo=FALSE, out.width="70%"}
+```{r echo=FALSE, out.width="90%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
   geom_point() +
   theme(panel.background = element_blank())
@@ -761,14 +777,14 @@ Bonus: **exercises/2b_grammar_of_graphics.R**
 
 ## Aesthetics and attributes
 
-<div style="float: left; width: 30%;">
+<div style="float: left; width: 35%;">
 - appearance of geometries
 - e.g. colour, size, shape
 - attributes take properties
 - aesthetics take variables
 </div>
 
-<div style="float: right; width: 65%;">
+<div style="float: right; width: 60%;">
 
 ```{r echo = FALSE, out.width="80%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
@@ -785,14 +801,14 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
 
 ## Aesthetics and attributes
 
-<div style="float: left; width: 30%;">
+<div style="float: left; width: 35%;">
 - appearance of geometries
 - e.g. colour, size, shape
 - attributes take properties
 - aesthetics take variables
 </div>
 
-<div style="float: right; width: 65%;">
+<div style="float: right; width: 60%;">
 
 ```{r echo = FALSE, out.width="80%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
@@ -809,14 +825,14 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
 
 ## Aesthetics and attributes
 
-<div style="float: left; width: 30%;">
+<div style="float: left; width: 35%;">
 - appearance of geometries
 - e.g. colour, size, shape
 - attributes take properties
 - aesthetics take variables
 </div>
 
-<div style="float: right; width: 65%;">
+<div style="float: right; width: 60%;">
 
 ```{r echo = FALSE, out.width="80%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
@@ -834,14 +850,14 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
 
 ## Aesthetics and attributes
 
-<div style="float: left; width: 30%;">
+<div style="float: left; width: 35%;">
 - appearance of geometries
 - e.g. colour, size, shape
 - attributes take properties
 - aesthetics take variables
 </div>
 
-<div style="float: right; width: 65%;">
+<div style="float: right; width: 60%;">
 
 ```{r echo = FALSE, out.width="80%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
@@ -860,14 +876,14 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
 
 ## Aesthetics and attributes
 
-<div style="float: left; width: 30%;">
+<div style="float: left; width: 35%;">
 - appearance of geometries
 - e.g. colour, size, shape
 - attributes take properties
 - aesthetics take variables
 </div>
 
-<div style="float: right; width: 65%;">
+<div style="float: right; width: 60%;">
 
 ```{r echo = FALSE, out.width="80%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
@@ -887,14 +903,14 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
 
 ## Aesthetics and attributes
 
-<div style="float: left; width: 30%;">
+<div style="float: left; width: 40%;">
 - appearance of geometries
 - e.g. colour, size, shape
 - attributes take properties
 - aesthetics take variables
 </div>
 
-<div style="float: right; width: 65%;">
+<div style="float: right; width: 55%;">
 
 ```{r echo = FALSE, out.width="80%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
@@ -914,9 +930,9 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 
 ## Aesthetics and attributes 
 
-```{r out.width="65%"}
+```{r out.width="50%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
-  geom_point(size = 3) 
+  geom_point(size = 2.5) 
 ```
 
 
@@ -924,25 +940,25 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +
 ## Aesthetics and attributes 
 
 
-```{r out.width="65%"}
+```{r out.width="50%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, shape = smoker)) +
-  geom_point(size = 3)
+  geom_point(size = 2.5)
 ```
 
 
 ## Aesthetics and attributes 
 
-```{r out.width="65%"}
+```{r out.width="50%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker, shape = smoker))  +
-  geom_point(size = 3)
+  geom_point(size = 2.5)
 ```
 
 
 ## Aesthetics and attributes 
 
-```{r out.width="65%"}
+```{r out.width="50%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker, shape = sex))  +
-  geom_point(size = 3)
+  geom_point(size = 2.5)
 ```
 
 
@@ -1831,6 +1847,32 @@ ggplot(blomkvist, aes(y = rt_hand_d, x = age)) +
   facet_grid(~smoker) +
   ###<b>
   theme_dark(base_size = 14)
+  ###</b>
+```
+
+</div>
+
+## Themes 
+
+<div style="float: left; width: 45%;">
+
+```{r eval = F}
+ggplot(blomkvist, aes(y = rt_hand_d, x = age)) + 
+  geom_point() +
+  facet_grid(~smoker) +
+  ###<b>
+  ggthemes::theme_clean()
+  ###</b>
+```
+</div>
+
+<div style="float: right; width: 50%;">
+```{r echo = F, out.width="100%"}
+ggplot(blomkvist, aes(y = rt_hand_d, x = age)) + 
+  geom_point() +
+  facet_grid(~smoker) +
+  ###<b>
+  ggthemes::theme_clean()
   ###</b>
 ```
 

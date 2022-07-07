@@ -39,9 +39,7 @@ ggplot(blomkvist, aes(y = rt_hand_nd, x = ---)) + # use "smoker" for x-axis
 blomkvist_long <- pivot_longer(blomkvist,
                                cols = starts_with("rt_"),
                                names_to = c(".value", "response_by", "dominant"),
-                               names_sep = "_") %>%
-  mutate(dominant = recode(dominant, d = "dominant", nd = "non-dominant"))
-
+                               names_sep = "_")
 
 # ... but check out how the data have changed:
 glimpse(blomkvist_long)
@@ -49,15 +47,10 @@ glimpse(blomkvist_long)
 # A long format allows us to produce the same plots as above (except for plot 1)
 # and more.
 
-# Fill in the --- so the code is reproducing Plot 2 above.
-blomkvist_long %>%
-  filter(response_by == "---", dominant == "---") %>%
-  ggplot(aes(y = rt, x = age)) +
-  geom_point()
-# Also, appreciate that we can combine tidyverse verbs, the pipe operator, and gglot.
-
-# We are also interested in data from the non-dominant hand and feet, so lets not filter them.
-ggplot(blomkvist_long, aes(y = rt, x = age)) +
+# Fill in the --- so the code is producing a scatter plot with age on the x axis
+# and rt on the y axis.
+# include "response_by" as aesthetic. Choose wisely.
+ggplot(blomkvist_long, aes(y = rt, x = age, --- = response_by)) +
   geom_point()
 
 # There is a trend in the data that older participants tend to be slower
@@ -65,7 +58,7 @@ ggplot(blomkvist_long, aes(y = rt, x = age)) +
 
 # To reduce the distance to larger values and thus to reduce the equality of variance,
 # lets use the log of the y axis using `+ scale_y_log10()`
-ggplot(blomkvist_long, aes(y = rt, x = age)) +
+ggplot(blomkvist_long, aes(y = rt, x = age, --- = response_by)) +
   geom_point() +
   --- # log scale y axis
 
@@ -74,12 +67,12 @@ ggplot(blomkvist_long, aes(y = rt, x = age, colour = ---)) + # map "smoker" to c
   geom_point() +
   --- # log scale y axis
 
-# There is still no obvious pattern. We see though that smoker has missing values (NA) we should get rid off.
+# There is no obvious pattern. We see though that smoker has missing values (NA) we should get rid off.
+blomkvist_long <- filter(blomkvist_long, !is.na(---)) # replace --- with "smoker"
+
 # Then, let's add regression lines for each level of smoker using stat_smooth.
 # Such a plot corresponds to a model of the type ANCOVA.
-blomkvist_long %>%
-  filter(!is.na(---)) %>% # remove NAs in "smoker"
-  ggplot(aes(y = rt, x = age, colour = ---)) + # map "smoker" to colour
+ggplot(blomkvist_long, aes(y = rt, x = age, colour = ---)) + # map "smoker" to colour
   geom_point(alpha = ---) + # reduce opacity to .25 of the points
   --- + # log scale y axis
   stat_smooth(method = "---") # we want the method to "lm" (linear model)
@@ -87,9 +80,7 @@ blomkvist_long %>%
 # We're observing a slowdown for older participants for all levels of smoker.
 # The regression lines don't really capture the exponential trend in the dots. We can change that
 # using the formula option for `stat_smooth`
-blomkvist_long %>%
-  filter(!is.na(---)) %>% # remove NAs in "smoker"
-  ggplot(aes(y = rt, x = age, colour = ---)) + # map "smoker" to colour
+ggplot(blomkvist_long, aes(y = rt, x = age, colour = ---)) + # map "smoker" to colour
   geom_point(alpha = ---) + # reduce opacity to .25 of the points
   --- + # log scale y axis
   stat_smooth(method = "---", formula = y ~ poly(x, 1)) # we want the method to "lm" (linear model)

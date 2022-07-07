@@ -9,29 +9,30 @@ blomkvist <- read_csv("data/blomkvist.csv")
 # Check out the variables in the data
 glimpse(blomkvist)
 
-# Let's start by creating a canvas for the data with rt of dominant hand on y axis and meds_cat on x axis.
+# Let's start by creating a canvas for the data with rt of dominant hand on
+# y axis and meds_cat on x axis.
 p_meds <- ggplot(data = blomkvist, aes(y = ---, x = ---))
 
 # Check out the plot so far:
 p_meds
 
-# Dynamite plots are frequently used to compare groups although there are very good
-# reasons to avoid these when copmaring groups.
+# Dynamite plots are frequently used to compare groups although there are
+# very good reasons to avoid these when copmaring groups.
 # For practice here is how to create a dynamite plot.
 
-# stat_summary allows us to calculate summary statistics such as the mean and error bars
+# stat_summary allows us to calculate summary statistics such as the mean and
+# error bars.
 # Check the following code. Medians are plotted as point.
 # Try instead to represent the mean as "bar":
 p_meds + stat_summary(fun = median, geom = "point", fill = "grey")
 # HINT: change median to mean and point to bar.
-p_meds + stat_summary(fun = median, geom = "---", fill = "grey")
+p_meds + stat_summary(fun = ---, geom = "---", fill = "grey")
 
 # Repeat the above for the first stat_summary function below.
 # The second stat_summary() should add the geom "errorbar"s.
 # Set width to 0.5.
 p_meds + stat_summary(fun = ---, geom = "---", fill = "grey") +
-  stat_summary(fun.data = mean_sdl,
-               geom = "---", width = ---)
+         stat_summary(fun.data = mean_sdl, geom = "---", width = ---)
 
 # Pitfalls for dynamite plots
 # 1. we don't know how the data are distributed (plot suggest normal distribution),
@@ -39,6 +40,7 @@ p_meds + stat_summary(fun = ---, geom = "---", fill = "grey") +
 # 3. bars suggest data where there are none (e.g. zero rt).
 # 4. there are values above the bar that are not shown in ink.
 # Don't bother with dynamite plots :)
+# Also, the alternatives are much easier to create :)
 
 # Here are some alternatives equivalent to what you have done in the previous script:
 # Add them to the canvas p_meds
