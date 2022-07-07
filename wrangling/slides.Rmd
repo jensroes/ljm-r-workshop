@@ -1527,7 +1527,7 @@ Continue with exercise 8
 </div>
 
 
-```{r}
+```{r echo = F}
 blomkvist <- blomkvist %>% drop_na()
 ```
 
