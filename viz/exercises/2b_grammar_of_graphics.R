@@ -44,4 +44,4 @@ smoker_plot + theme_bw()
 # We can make manual adjustments too. Let's change the position of the legend
 # by adding a layer called "theme" and the argument legend.position.
 # "right" is the default position. Replace "---" with "top" or "bottom"
-age_plot + theme(legend.position = "---")
+smoker_plot + theme(legend.position = "---")

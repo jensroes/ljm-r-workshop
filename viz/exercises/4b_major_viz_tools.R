@@ -82,5 +82,4 @@ p_meds +
 # The errorbars in the plot indicate 2 times SD
 # Instead you might want to use confidence intervals.
 # For CIs use the function mean_cl_normal instead of mean_sdl
-# Change mean to median.
 # Beautiful :)

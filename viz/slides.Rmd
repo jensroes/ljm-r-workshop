@@ -903,14 +903,14 @@ ggplot(blomkvist, aes(x = age, y = rt_hand_d)) +
 
 ## Aesthetics and attributes
 
-<div style="float: left; width: 40%;">
+<div style="float: left; width: 35%;">
 - appearance of geometries
 - e.g. colour, size, shape
 - attributes take properties
 - aesthetics take variables
 </div>
 
-<div style="float: right; width: 55%;">
+<div style="float: right; width: 60%;">
 
 ```{r echo = FALSE, out.width="80%"}
 ggplot(blomkvist, aes(x = age, y = rt_hand_d, colour = smoker)) +

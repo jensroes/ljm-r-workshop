@@ -39,7 +39,7 @@ rt_plot_2
 rt_plot_2 + ---
 
 # Points are overlapping on the lower end.
-# You can add some jitter to the points using position_jitter.
+# You can add some jitter to the points using the geometry geom_jitter()
 rt_plot_2 + ---
 
 # There are many observations on the lower end and few on the upper.
